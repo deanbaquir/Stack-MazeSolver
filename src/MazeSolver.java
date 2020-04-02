@@ -14,9 +14,10 @@ public class MazeSolver {
 
 	public MazeSolver(File file) {
 		readFile(file);
+		solveMaze();
 	}
 
-	public void readFile(File file) {
+	private void readFile(File file) {
 		try {
 			Scanner fileReader = new Scanner(file);
 
@@ -38,12 +39,12 @@ public class MazeSolver {
 			for (int i = 0; i < this.numRows; i++) {
 				for (int j = 0; j < this.numCols; j++) {
 					maze[i][j] = body.charAt(j);
-					System.out.print(maze[i][j] + " ");
+//					System.out.print(maze[i][j] + " ");
 				}
 				if (i < this.numRows - 1) {
 					body = fileReader.nextLine();
 				}
-				System.out.println();
+//				System.out.println();
 			}
 	
 			fileReader.close();
@@ -53,4 +54,18 @@ public class MazeSolver {
 		}
 	}
 
+	private void solveMaze() {
+		
+		stack.push(maze[startRow][startCol]);
+		
+		while (stack.peek() != 'E') {
+			
+			// Checking top direction
+			if (maze[startRow - 1][startCol] == '1') {
+				maze[startRow - 1][startCol] = 'X';
+				stack.push(maze[startRow - 1][startCol]);
+			}
+		}
+		
+	}
 }
