@@ -55,16 +55,24 @@ public class MazeSolver {
 	}
 
 	private void solveMaze() {
+		int currRow = startRow;
+		int currCol = startCol;
+		stack.push(maze[currRow][currCol]);
 		
-		stack.push(maze[startRow][startCol]);
+//		while (stack.peek() != 'E') {
+//		
+//			// Checking top direction
+//			if (maze[currRow--][currCol] == '1') {
+//				maze[currRow--][currCol] = 'X';
+//				currRow--;
+//				stack.push(maze[currRow][currCol]);
+//			}
+//		}
 		
-		while (stack.peek() != 'E') {
-			
-			// Checking top direction
-			if (maze[startRow - 1][startCol] == '1') {
-				maze[startRow - 1][startCol] = 'X';
-				stack.push(maze[startRow - 1][startCol]);
-			}
+		while (maze[currRow--][currCol] != '0') {
+			currRow--;
+			maze[currRow][currCol] = 'X';
+			stack.push(maze[currRow][currCol]);
 		}
 		
 	}
