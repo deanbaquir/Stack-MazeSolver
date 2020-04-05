@@ -10,7 +10,6 @@ public class MazeSolver {
 	private int startRow, startCol;
 	private char[][] maze;
 	private Stack<Point> stack = new Stack<>();
-	private boolean isSolved = false;
 
 	public MazeSolver() {}
 
@@ -60,7 +59,8 @@ public class MazeSolver {
 		// Starting coordinates
 		Point currCoords = new Point(x,y);
 		this.stack.push(currCoords);
-
+		
+		boolean isSolved = false;
 		while (isSolved == false) {
 			
 			// Checking top
@@ -90,7 +90,6 @@ public class MazeSolver {
 			else {
 				this.maze[x][y] = '0';
 				this.stack.pop();
-				//TODO: Check this while debugging
 				currCoords = new Point(stack.peek());
 				x = currCoords.x;
 				y = currCoords.y;
@@ -98,7 +97,7 @@ public class MazeSolver {
 			
 			// This is checked regardless of moving
 			if (this.maze[x][y] == 'E') {
-				this.isSolved = true;
+				isSolved = true;
 			}
 			else if (this.maze[x][y] != 'X') {
 				this.maze[x][y] = 'X';
