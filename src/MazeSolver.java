@@ -1,3 +1,4 @@
+import java.awt.Point;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -8,13 +9,14 @@ public class MazeSolver {
 	private int numRows, numCols;
 	private int startRow, startCol;
 	private char[][] maze;
-	private Stack<Character> stack = new Stack<>();
+	private Stack<Coords> stack = new Stack<>();
+	private boolean isSolved = false;
 
 	public MazeSolver() {}
 
 	public MazeSolver(File file) {
 		readFile(file);
-		solveMaze();
+		solveMaze(this.startRow, this.startCol);
 	}
 
 	private void readFile(File file) {
@@ -54,26 +56,64 @@ public class MazeSolver {
 		}
 	}
 
-	private void solveMaze() {
-		int currRow = startRow;
-		int currCol = startCol;
-		stack.push(maze[currRow][currCol]);
+	// "this." syntax not used in method
+	private void solveMaze(int x, int y) {
+		x = this.startRow;
+		y = this.startCol;
 		
-//		while (stack.peek() != 'E') {
-//		
-//			// Checking top direction
-//			if (maze[currRow--][currCol] == '1') {
-//				maze[currRow--][currCol] = 'X';
-//				currRow--;
-//				stack.push(maze[currRow][currCol]);
-//			}
-//		}
-		
-		while (maze[currRow--][currCol] != '0') {
-			currRow--;
-			maze[currRow][currCol] = 'X';
-			stack.push(maze[currRow][currCol]);
+		// Starting coordinates
+		Coords currCoords = new Coords(x,y);
+		stack.push(currCoords);
+
+		// Previous argument: maze[currCoords.x][currCoords.y] != 'E'
+		while (maze[x][y] != 'E') {
+			
+			// Checking top
+			if (currCoords.getX() > 0 && maze[currCoords.getX() - 1][currCoords.getY()] == '1') {
+				currCoords.setX(currCoords.getX() - 1);
+				stack.push(currCoords);
+			}
+			
+			// Checking right
+			else if (currCoords.getY() < numCols - 1 && maze[currCoords.getX()][currCoords.getY() + 1] == '1') {
+				currCoords.setY(currCoords.getY() + 1);
+				stack.push(currCoords);
+			}
+			
+			// Checking bottom
+			else if (currCoords.getX() < numRows - 1 && maze[currCoords.getX() + 1][currCoords.getY()] == '1') {
+				currCoords.setX(currCoords.getX() + 1);
+				stack.push(currCoords);
+			}
+			
+			// Checking left
+			else if (currCoords.getY() > 0 && maze[currCoords.getX()][currCoords.getY() - 1] == '1') {
+				currCoords.setY(currCoords.getY() - 1);
+				stack.push(currCoords);
+			}
+			
+			else {
+				maze[currCoords.getX()][currCoords.getY()] = '0';
+				stack.pop();
+				currCoords = stack.peek();
+			}
+			
+			// This is checked regardless of if-else
+			if (maze[currCoords.getX()][currCoords.getY()] != 'X') {
+				maze[currCoords.getX()][currCoords.getY()] = 'X';
+			}
 		}
 		
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numCols; j++) {
+				System.out.print(maze[i][j] + " ");
+			}
+			System.out.println();
+		}
+
+
 	}
+	
+	
+	
 }
