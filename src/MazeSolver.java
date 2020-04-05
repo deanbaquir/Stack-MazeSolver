@@ -9,7 +9,7 @@ public class MazeSolver {
 	private int numRows, numCols;
 	private int startRow, startCol;
 	private char[][] maze;
-	private Stack<Coords> stack = new Stack<>();
+	private Stack<Point> stack = new Stack<>();
 	private boolean isSolved = false;
 
 	public MazeSolver() {}
@@ -41,14 +41,11 @@ public class MazeSolver {
 			for (int i = 0; i < this.numRows; i++) {
 				for (int j = 0; j < this.numCols; j++) {
 					maze[i][j] = body.charAt(j);
-//					System.out.print(maze[i][j] + " ");
 				}
 				if (i < this.numRows - 1) {
 					body = fileReader.nextLine();
 				}
-//				System.out.println();
 			}
-	
 			fileReader.close();
 		} 
 		catch (FileNotFoundException e) {
@@ -56,62 +53,68 @@ public class MazeSolver {
 		}
 	}
 
-	// "this." syntax not used in method
 	private void solveMaze(int x, int y) {
 		x = this.startRow;
 		y = this.startCol;
 		
 		// Starting coordinates
-		Coords currCoords = new Coords(x,y);
-		stack.push(currCoords);
+		Point currCoords = new Point(x,y);
+		this.stack.push(currCoords);
 
-		// Previous argument: maze[currCoords.x][currCoords.y] != 'E'
-		while (maze[x][y] != 'E') {
+		while (isSolved == false) {
 			
 			// Checking top
-			if (currCoords.getX() > 0 && maze[currCoords.getX() - 1][currCoords.getY()] == '1') {
-				currCoords.setX(currCoords.getX() - 1);
-				stack.push(currCoords);
+			if (x > 0 && (this.maze[x - 1][y] == '1' || this.maze[x - 1][y] == 'E')) {
+				x = x - 1;
+				this.stack.push(new Point(x,y));
 			}
 			
 			// Checking right
-			else if (currCoords.getY() < numCols - 1 && maze[currCoords.getX()][currCoords.getY() + 1] == '1') {
-				currCoords.setY(currCoords.getY() + 1);
-				stack.push(currCoords);
+			else if (y < this.numCols - 1 && (this.maze[x][y + 1] == '1' || this.maze[x][y + 1] == 'E')) {
+				y = y + 1;
+				this.stack.push(new Point(x,y));
 			}
 			
 			// Checking bottom
-			else if (currCoords.getX() < numRows - 1 && maze[currCoords.getX() + 1][currCoords.getY()] == '1') {
-				currCoords.setX(currCoords.getX() + 1);
-				stack.push(currCoords);
+			else if (x < this.numRows - 1 && (this.maze[x + 1][y] == '1' || this.maze[x + 1][y] == 'E')) {
+				x = x + 1;
+				this.stack.push(new Point(x,y));
 			}
 			
 			// Checking left
-			else if (currCoords.getY() > 0 && maze[currCoords.getX()][currCoords.getY() - 1] == '1') {
-				currCoords.setY(currCoords.getY() - 1);
-				stack.push(currCoords);
+			else if (y > 0 && (this.maze[x][y - 1] == '1' || this.maze[x][y - 1] == 'E')) {
+				y = y - 1;
+				this.stack.push(new Point(x,y));
 			}
 			
 			else {
-				maze[currCoords.getX()][currCoords.getY()] = '0';
-				stack.pop();
-				currCoords = stack.peek();
+				this.maze[x][y] = '0';
+				this.stack.pop();
+				//TODO: Check this while debugging
+				currCoords = new Point(stack.peek());
+				x = currCoords.x;
+				y = currCoords.y;
 			}
 			
-			// This is checked regardless of if-else
-			if (maze[currCoords.getX()][currCoords.getY()] != 'X') {
-				maze[currCoords.getX()][currCoords.getY()] = 'X';
+			// This is checked regardless of moving
+			if (this.maze[x][y] == 'E') {
+				this.isSolved = true;
+			}
+			else if (this.maze[x][y] != 'X') {
+				this.maze[x][y] = 'X';
 			}
 		}
 		
+		// Printing out solution path
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
+				if (this.maze[i][j] == '1') {
+					maze[i][j] = '0';
+				}
 				System.out.print(maze[i][j] + " ");
 			}
 			System.out.println();
 		}
-
-
 	}
 	
 	
