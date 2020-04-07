@@ -126,7 +126,7 @@ public class MazeSolver extends GridPane {
 				TextField tf = new TextField();
 				tf.setAlignment(Pos.CENTER);
 				
-				if (maze[i][j] == 'S') {
+				if (maze[i][j] == 'S' || maze[i][j] == 'E') {
 					tf.setStyle("-fx-background-color: cyan");
 				}
 				
