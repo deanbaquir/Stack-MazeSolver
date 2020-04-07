@@ -19,11 +19,6 @@ public class MazeSolver extends GridPane {
 		super();
 	}
 	
-	public MazeSolver(File file) {
-		readFile(file);
-		solveMaze(this.startRow, this.startCol);
-	}
-
 	public void readFile(File file) {
 		try {
 			Scanner fileReader = new Scanner(file);
@@ -45,7 +40,7 @@ public class MazeSolver extends GridPane {
 
 			for (int i = 0; i < this.numRows; i++) {
 				for (int j = 0; j < this.numCols; j++) {
-					maze[i][j] = body.charAt(j);
+					this.maze[i][j] = body.charAt(j);
 				}
 				if (i < this.numRows - 1) {
 					body = fileReader.nextLine();
@@ -96,7 +91,7 @@ public class MazeSolver extends GridPane {
 			else {
 				this.maze[x][y] = '0';
 				this.stack.pop();
-				currCoords = new Point(stack.peek());
+				currCoords = new Point(this.stack.peek());
 				x = currCoords.x;
 				y = currCoords.y;
 			}
@@ -114,7 +109,7 @@ public class MazeSolver extends GridPane {
 		for (int i = 0; i < this.numRows; i++) {
 			for (int j = 0; j < this.numCols; j++) {
 				if (this.maze[i][j] == '1') {
-					maze[i][j] = '0';
+					this.maze[i][j] = '0';
 				}
 			}
 		}
@@ -126,18 +121,18 @@ public class MazeSolver extends GridPane {
 				TextField tf = new TextField();
 				tf.setAlignment(Pos.CENTER);
 				
-				if (maze[i][j] == 'S' || maze[i][j] == 'E') {
+				if (this.maze[i][j] == 'S' || this.maze[i][j] == 'E') {
 					tf.setStyle("-fx-background-color: cyan");
 				}
 				
-				if (maze[i][j] == '0') {
+				if (this.maze[i][j] == '0') {
 					tf.setStyle("-fx-background-color: indianred");
 				}
 				
-				if (maze[i][j] == 'X') {
+				if (this.maze[i][j] == 'X') {
 					tf.setStyle("-fx-background-color: blanchedalmond");
 				}
-				tf.setText("" + maze[i][j]);
+				tf.setText("" + this.maze[i][j]);
 				this.add(tf, j, i);
 				this.setGridLinesVisible(true);
 			}
