@@ -4,21 +4,27 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.Stack;
 
-public class MazeSolver {
+import javafx.geometry.Pos;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+
+public class MazeSolver extends GridPane {
 
 	private int numRows, numCols;
 	private int startRow, startCol;
 	private char[][] maze;
 	private Stack<Point> stack = new Stack<>();
-
-	public MazeSolver() {}
-
+	
+	public MazeSolver() {
+		super();
+	}
+	
 	public MazeSolver(File file) {
 		readFile(file);
 		solveMaze(this.startRow, this.startCol);
 	}
 
-	private void readFile(File file) {
+	public void readFile(File file) {
 		try {
 			Scanner fileReader = new Scanner(file);
 
@@ -51,8 +57,8 @@ public class MazeSolver {
 			System.out.println("File not Found");
 		}
 	}
-
-	private void solveMaze(int x, int y) {
+		
+	public void solveMaze(int x, int y) {
 		x = this.startRow;
 		y = this.startCol;
 		
@@ -104,18 +110,47 @@ public class MazeSolver {
 			}
 		}
 		
-		// Printing out solution path
-		for (int i = 0; i < numRows; i++) {
-			for (int j = 0; j < numCols; j++) {
+		// Sets untouched paths to 0
+		for (int i = 0; i < this.numRows; i++) {
+			for (int j = 0; j < this.numCols; j++) {
 				if (this.maze[i][j] == '1') {
 					maze[i][j] = '0';
 				}
-				System.out.print(maze[i][j] + " ");
 			}
-			System.out.println();
 		}
 	}
 	
+	public void displayMaze() {
+		for (int i = 0; i < this.numRows; i++) {
+			for (int j = 0; j < this.numCols; j++) {
+				TextField tf = new TextField();
+				tf.setAlignment(Pos.CENTER);
+				
+				if (maze[i][j] == 'S') {
+					tf.setStyle("-fx-background-color: cyan");
+				}
+				
+				if (maze[i][j] == '0') {
+					tf.setStyle("-fx-background-color: indianred");
+				}
+				
+				if (maze[i][j] == 'X') {
+					tf.setStyle("-fx-background-color: blanchedalmond");
+				}
+				tf.setText("" + maze[i][j]);
+				this.add(tf, j, i);
+				this.setGridLinesVisible(true);
+			}
+		}
+	}
+		
+	public int getStartRow() {
+		return this.startRow;
+	}
+	
+	public int getStartCol() {
+		return this.startCol;
+	}
 	
 	
 }
