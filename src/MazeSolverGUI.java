@@ -38,8 +38,9 @@ public class MazeSolverGUI extends Application {
 		borderPane.setTop(paneForUI);
 		borderPane.setCenter(maze);
 
-		Scene scene = new Scene(borderPane, 1200, 700);
+		Scene scene = new Scene(borderPane, 1200, 850);
 		primaryStage.setScene(scene);
+		primaryStage.setResizable(true);
 		primaryStage.setTitle("Maze Solver (implemented w/ Stack API)");
 		primaryStage.show();
 	}
