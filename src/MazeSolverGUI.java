@@ -13,7 +13,7 @@ public class MazeSolverGUI extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		FileChooser fileChooser = new FileChooser();
-		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt")); // Input must be .txt file
 		MazeSolver maze = new MazeSolver();
 		
 		HBox paneForUI = new HBox(20);
@@ -47,6 +47,9 @@ public class MazeSolverGUI extends Application {
 
 	public static void main(String[] args) {
 		Application.launch(args);
+
+		// made new changes
+		fasfdafasfasfdsfdasfda
 	}
 
 }

@@ -88,6 +88,7 @@ public class MazeSolver extends GridPane {
 				this.stack.push(new Point(x,y));
 			}
 			
+			// Case when hitting a dead end
 			else {
 				this.maze[x][y] = '0';
 				this.stack.pop();
@@ -96,7 +97,7 @@ public class MazeSolver extends GridPane {
 				y = currCoords.y;
 			}
 			
-			// This is checked regardless of moving
+			// Checks every iteration regardless of movement
 			if (this.maze[x][y] == 'E') {
 				isSolved = true;
 			}
@@ -121,14 +122,17 @@ public class MazeSolver extends GridPane {
 				TextField tf = new TextField();
 				tf.setAlignment(Pos.CENTER);
 				
+				// Change color of start and end
 				if (this.maze[i][j] == 'S' || this.maze[i][j] == 'E') {
 					tf.setStyle("-fx-background-color: cyan");
 				}
 				
+				// Change color of unmovable paths
 				if (this.maze[i][j] == '0') {
 					tf.setStyle("-fx-background-color: indianred");
 				}
 				
+				// Change color of path
 				if (this.maze[i][j] == 'X') {
 					tf.setStyle("-fx-background-color: blanchedalmond");
 				}
