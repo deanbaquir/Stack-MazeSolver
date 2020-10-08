@@ -1,5 +1,6 @@
 # Stack-MazeSolver
 First TWO numbers of .txt file represent maze dimension.
+
 Second TWO numbers indicate starting position represented by 'S'
 
 1 = path you CAN walk on
